@@ -23,6 +23,8 @@ db_instance = None
 class DbTransfer(object):
 
     def __init__(self):
+        reload(sys)
+        sys.setdefaultencoding('utf-8')
         import threading
         self.last_update_transfer = {}
         self.event = threading.Event()
@@ -111,7 +113,7 @@ class DbTransfer(object):
             cur.close()
 
             bandwidth_thistime = bandwidth_thistime + \
-                ((dt_transfer[id][0] + dt_transfer[id][1]) * self.traffic_rate)
+                (dt_transfer[id][0] + dt_transfer[id][1])
 
             if query_sub_in is not None:
                 query_sub_in += ',%s' % id
@@ -640,7 +642,7 @@ class DbTransfer(object):
                         if has_higher_priority:
                             continue
 
-                        if self.relay_rule_list[id]['dist_ip'] == '0.0.0.0':
+                        if self.relay_rule_list[id]['dist_ip'] == '0.0.0.0' and row['is_multi_user'] == 0:
                             continue
 
                         temp_relay_rules[id] = self.relay_rule_list[id]
@@ -711,7 +713,7 @@ class DbTransfer(object):
                                 continue
 
                             if self.relay_rule_list[id][
-                                    'dist_ip'] == '0.0.0.0':
+                                    'dist_ip'] == '0.0.0.0' and row['is_multi_user'] == 0:
                                 continue
 
                             temp_relay_rules[id] = self.relay_rule_list[id]
