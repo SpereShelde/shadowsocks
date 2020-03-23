@@ -5,7 +5,6 @@ import logging
 import requests
 from configloader import load_config, get_config
 from collections import OrderedDict
-from shadowsocks import shell
 
 class WebApi(object):
 
@@ -45,11 +44,6 @@ class WebApi(object):
         try:
             uri_params = params.copy()
             uri_params['key'] = get_config().WEBAPI_TOKEN
-            shell.print_exception("==========")
-            shell.print_exception('URL: %s/mod_mu/%s' % (get_config().WEBAPI_URL, uri))
-            shell.print_exception('%s' % str(uri_params))
-            shell.print_exception('%s' % str(raw_data))
-            shell.print_exception("==========“)
             res = self.session_pool.post(
                 '%s/mod_mu/%s' %
                 (get_config().WEBAPI_URL,
